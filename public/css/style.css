@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F0EDEE;
+    color: #5F5F5F;
+    font-family: 'Inter', sans-serif;
+  }
+  
+
+  nav {
+    
+    padding: 10px 0;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-bottom: 2px solid #ccc; /* Adding thickness to the navbar */
+
+    
+  }
+  
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 200px;
+    
+  }
+  
+  .left-section {
+    display: flex;
+    align-items: center;
+    
+  }
+  
+  .right-section {
+    display: flex;
+    align-items: center;
+ 
+  }
+  .right-section .signin-link {
+    margin-right: 20px; /* Adjust the margin as needed */
+    text-decoration: none;
+
+  }
+  .right-section .create-link {
+    
+    text-decoration: none;
+
+  }
+
+  /* LEFT NAV LINKS */
+  
+  .nav-links-left {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    text-decoration: none;
+    
+  }
+
+  .nav-links-left a {
+    text-decoration: none;
+  }
+  .nav-links-left a:hover {
+    color:#E46E6E;
+  }
+
+  .nav-links-left .pricing-link {
+    margin-left: 20px; /* Adjust the margin as needed */
+    
+  }
+  .nav-links-left .features-link {
+    margin-left: 20px; /* Adjust the margin as needed */
+    
+  }
+  
+
+  /*right nav links*/
+
+
+  .nav-links-right {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    
+  }
+  .nav-links-right a:hover {
+    color:#E46E6E
+  }
+  
+  .nav-links li {
+    margin-left: 20px;
+  }
+  
+  .brand-logo {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-family: inter;
+    font-size: 24px;
+  }
+  
+  nav .nav-links li a {
+    color: #5F5F5F;
+    text-decoration: none;
+    
+  }
+  
+  .highlight {
+    color: #E46E6E;
+  }
+
+  
