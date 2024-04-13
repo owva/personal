@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+</head>
+<body>
+<h2>Edit Profile</h2>
+
+<form action="/edit" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="<%= user.name %>" required><br>
+    
+    <label for="bio">Bio:</label>
+    <textarea id="bio" name="bio" required><%= user.bio %></textarea><br>
+    
+    <% user.links.forEach(function(link, index) { %>
+    <div class="link">
+        <label for="linkTitle<%= index %>">Link Title:</label>
+        <input type="text" id="linkTitle<%= index %>" name="linkTitles[]" value="<%= link.title %>" required>
+        
+        <label for="linkUrl<%= index %>">Link URL:</label>
+        <input type="url" id="linkUrl<%= index %>" name="linkUrls[]" value="<%= link.url %>" required>
+    </div>
+    <% }); %>
+    <button type="submit">Update Profile</button>
+</form>
+<script>
+    // JavaScript for adding/removing links dynamically if needed
+</script>
+</body>
+</html>

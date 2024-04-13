@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= user.username %> Links</title>
+  <title><%= user.name %></title>
 </head>
 <body>
-  <h1>User Links</h1>
+  <h1><%= user.name %></h1>
+  <p><%= user.bio %></p>
+  <h3>My Links</h3>
   <ul>
-    <% links.forEach(link => { %>
+    <% user.links.forEach(link => { %>
       <li><a href="<%= link.url %>"><%= link.title %></a></li>
     <% }); %>
   </ul>

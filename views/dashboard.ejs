@@ -2,15 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-
 </head>
 <body>
-    <form action="/post-link" method="post">
-        <input type="text" name="title" placeholder="Title" required>
-        <input type="text" name="url" placeholder="URL" required>
-        <button type="submit">Post Link</button>
-</form>
+    <h1>Welcome, <%= user.name %>!</h1>
+    <form action="/update-profile" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<%= user.name %>" required><br>
+        
+        <label for="bio">Bio:</label>
+        <textarea id="bio" name="bio" required><%= user.bio %></textarea><br>
+        
+        <h2>Your Links</h2>
+        <% user.links.forEach(function(link, index) { %>
+        <div class="link">
+            <label for="linkTitle<%= index %>">Title:</label>
+            <input type="text" id="linkTitle<%= index %>" name="linkTitles[]" value="<%= link.title %>" required>
+            
+            <label for="linkUrl<%= index %>">URL:</label>
+            <input type="url" id="linkUrl<%= index %>" name="linkUrls[]" value="<%= link.url %>" required>
+            
+            <!-- Delete Link Form -->
+            <form action="/delete-link" method="POST" style="display: inline;">
+                <input type="hidden" name="linkIndex" value="<%= index %>">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+        <% }); %>
+        <button type="submit">Update Profile</button>
+    </form>
+
+    <hr>
+    
+    <h2>Add a New Link</h2>
+    <form action="/post-link" method="POST">
+        <input type="text" name="title" placeholder="Link Title" required>
+        <input type="text" name="url" placeholder="Link URL" required>
+        <button type="submit">Add Link</button>
+    </form>
 </body>
 </html>

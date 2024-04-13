@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -32,8 +33,13 @@ app.get('/', (req, res) => {
   res.render("index.ejs");
 });
 
-app.get('/dashboard', (req, res) => {
-  res.render("dashboard.ejs");
+app.get('/dashboard', async (req, res) => {
+  if (!req.session.userId){
+    return res.redirect('/login');
+  }
+  const user = await User.findById(req.session.userId);
+  
+  res.render("dashboard.ejs", { user: user });
 });
 
 app.get('/signup',(req, res) => {
@@ -49,22 +55,6 @@ app.get('/test',(req, res) => {
 });
 
 //dynamic display route 
-// Catch-all route for user profiles
-// app.get('/:username', (req, res) => {
-//   const { username } = req.params;
-//   // Implement logic to check if the username exists
-//   // For example, query your database for a user with this username
-//   User.findOne({ username: username }, (err, user) => {
-//     if (err) {
-//       return res.status(500).send("Error checking for user");
-//     }
-//     if (!user) {
-//       return res.status(404).send("User not found");
-//     }
-//     // Render or send the user's profile page
-//     res.render('user-profile', { user: user }); // Assuming you have a user-profile.ejs
-//   });
-// });
 
 app.get('/:username', async (req, res) => {
   try {
@@ -74,7 +64,7 @@ app.get('/:username', async (req, res) => {
       return res.status(404).send("User not found");
     }
     // Assuming you have a view called 'user-profile.ejs' that displays the user's data
-    res.render('user-profile', { links: user.links });
+    res.render('user-profile', { user: user });
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');
@@ -85,7 +75,7 @@ app.get('/:username', async (req, res) => {
 
 
 //database connection
-mongoose.connect('mongodb+srv://admin:OT)!jc05@signup.2tmrjfo.mongodb.net/Users', {
+mongoose.connect(process.env.MONGO_URI, {
 
 }).then(() => {
   console.log("MongoDB database connection established successfully");
@@ -167,6 +157,51 @@ app.post('/post-link', async (req, res) => {
   }
 });
 
+app.post('/delete-link', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/login'); // Ensure user is logged in
+  }
+
+  try {
+    // Get user document
+    const user = await User.findById(req.session.userId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    // Remove the link at the specified index
+    const { linkIndex } = req.body;
+    user.links.splice(linkIndex, 1);
+
+    // Save the updated user document
+    await user.save();
+    res.redirect('/dashboard');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error deleting link');
+  }
+});
+
+
+app.post('/update-profile', async (req, res) => {
+  const { name, bio, linkTitles, linkUrls } = req.body;
+
+
+  const updatedLinks = linkTitles.map((title, index) => ({
+      title: title,
+      url: preprocessUrl(linkUrls[index]) //preprocess url like before
+  }));
+
+  try {
+      await User.findByIdAndUpdate(req.session.userId, {
+          $set: { name, bio, links: updatedLinks }
+      });
+      res.redirect('/dashboard');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error updating profile');
+  }
+});
 
 
 
